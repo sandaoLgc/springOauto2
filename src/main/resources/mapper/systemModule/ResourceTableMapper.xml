@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jln.common.systemModule.mapper.ResourceTableMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.jln.common.systemModule.enity.ResourceTable">
+        <id column="rosource_id" property="rosourceId" />
+        <result column="rosource_url" property="rosourceUrl" />
+        <result column="rosource_pid" property="rosourcePid" />
+        <result column="rosource_type" property="rosourceType" />
+        <result column="rosource_status" property="rosourceStatus" />
+    </resultMap>
+    <resultMap id="getRosourceIsRoleMap" type="com.jln.common.systemModule.pojo.vo.ResourceTableVo">
+        <result column="rosource_url" property="rosourceUrl" />
+        <collection property="roles" resultMap="com.jln.common.systemModule.mapper.RoleMapper.BaseResultMap"></collection>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        rosource_id, rosource_url, rosource_pid, rosource_type, rosource_status
+    </sql>
+
+    <select id="getRosourceIsRole" resultMap="getRosourceIsRoleMap">
+        SELECT rosource_url,role_name from resource_table
+        LEFT JOIN role_resource ON resource_table.rosource_id=role_resource.rosource_id
+        LEFT JOIN role ON role.role_id=role_resource.role_id
+    </select>
+
+</mapper>
